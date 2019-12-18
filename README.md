@@ -117,3 +117,21 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
     In the "Print Station" drop-down, choose your Raspberry Pi station you just created.
 
 1.  Do a test check-in!
+
+## Troubleshooting
+
+*DO NOT CONTACT PLANNING CENTER SUPPORT ABOUT ISSUES WITH THIS SETUP. THEY WILL NOT BE ABLE TO HELP YOU.*
+
+**Printing doesn't work!**
+
+1.  Make sure the setup script was able to print a test label. If not, you may need to figure out why the command `echo "test" | lpr -P "$printer_name" -` isn't working.
+
+1.  Check that the Dymo printer is setup via Cups at [https://IPADDRESS:631](https://IPADDRESS:631).
+
+1.  Use VNC to connect to the Pi and visit the Print Setup page in the Check-ins app. You can get there by pressing Ctrl-2.
+
+**Printing is slow!**
+
+The first label printed after booting up the Pi can take 20-30 seconds to print. The print time improves down to 3-5 seconds after a print job or two.
+
+But this is still slow. I am working on updating this script to use a newer release of the Check-Ins app, which will greatly improve print speeds. Stay tuned!
