@@ -26,7 +26,7 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
 
 1.  Enable Check-ins "Universal Printing" [here](https://check-ins.planningcenteronline.com/universal_printing_beta).
 
-1.  On a desktop computer, download Raspbian Stretch from [here](https://downloads.raspberrypi.org/raspbian/images/raspbian-2019-04-09). Note: this is the latest version of Raspbian that I have found to work well. Raspbian Buster (the latest version as of this writing) has some issues printing to Dymo quickly. Raspbian Stretch does not.
+1.  On a desktop computer, download Raspbian Buster from [here](http://downloads.raspberrypi.org/raspbian/images/raspbian-2020-02-14/). Note: this is the only version of Raspbian I have tested this with. If you choose a newer version, you're on your own!
 
 1.  Use a tool like [Etcher](https://www.balena.io/etcher/) to write the downloaded image to your SD card.
 
@@ -41,7 +41,7 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
     Here is how to search for your Raspberry Pi with nmap:
 
     ```sh
-    sudo nmap --stats-every 1s -p 22 -open 192.168.1.0/24
+    sudo nmap -p 22 -open 192.168.1.0/24
     ```
 
     The last argument tells nmap about your local network. The most typical is `192.168.1.0/24`, but if you have another network IP address and range, adjust appropriately. For instance, if your network IP addresses are 10.0.x.y, then you might need to use `10.0.0.0/16`. You can use a tool like the [Subnet Calculator](http://www.subnet-calculator.com/) to help.
@@ -82,21 +82,45 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
 
     You can see from the output, that only one device on my network responds to the SSH port 22 **and** has a Mac Address assigned to Raspberry Pi Foundation. This is the Pi I'm looking for!
 
-1.  Run the setup script on the Pi. Be sure to substitute the IP address with the one you found in the step above.
+1.  SSH to the Pi and change the default password. Be sure to substitute the IP address with the one you found in the step above.
 
     ```sh
-    ssh pi@192.168.X.Y "curl https://raw.githubusercontent.com/seven1m/rpi-check-in-printer/latest/setup.sh -o setup.sh && ./setup.sh"
+    ssh pi@192.168.X.Y
     ```
 
-    You will need to log in with the default SSH password of "raspberry". (We will change this soon.)
+    Enter the default password: `raspberry`
 
-    If you are on Windows, you can use [Putty](https://putty.org/) to connect. If you do, just run the portion of the above command that is in quotes.
+    ```sh
+    passwd
+    ```
+
+    Enter `rapsberry` one last time, then enter your new desired password.
+
+1.  Download and run the setup script.
+
+    Note: You should still be connected to the Pi. This command will run remotely on the Pi itself.
+
+    ```sh
+    curl https://raw.githubusercontent.com/seven1m/rpi-check-in-printer/latest/setup.sh -o setup.sh
+    chmod +x setup.sh
+    ./setup.sh
+    ```
 
 1.  Assuming you made it through the setup process and you were able to print a test label, you can continue to the next step.
 
     **DO NOT CONTINUE until you can get a test label to print using the setup script above.**
 
-1.  Use VNC to connect to the Pi. You can use [TightVNC](http://tightvnc.net/) or another client. The VNC password is the one you set earlier.
+1.  Use VNC to connect to the Pi.
+
+    First, start the server by SSHing to the Pi and running `vncserver`. Note the address, e.g. `192.168.X.Y:1`.
+
+    Download and run [RealVNC](https://www.realvnc.com).
+
+    Use this displayed address to connect to the Pi with RealVNC Viewer on your local machine.
+
+    The VNC password is the one you set earlier.
+
+1.  Set up the Planning Center Check-ins Software.
 
     You should see Planning Center Check-ins asking you to set up a new station.
 
