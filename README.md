@@ -112,11 +112,9 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
 
 1.  Use VNC to connect to the Pi.
 
-    First, start the server by SSHing to the Pi and running `vncserver`. Note the address, e.g. `192.168.X.Y:1`.
-
     Download and run [RealVNC](https://www.realvnc.com).
 
-    Use this displayed address to connect to the Pi with RealVNC Viewer on your local machine.
+    Use the IP address you discovered earlier plus `:1` to connect to the Pi with RealVNC Viewer. The full address will look like something this: `192.168.X.Y:1`
 
     The VNC password is the one you set earlier.
 

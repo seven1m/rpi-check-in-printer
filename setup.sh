@@ -59,6 +59,11 @@ if [[ ! -e $qz_filename ]]; then
   sudo ./$qz_filename
 fi
 
+sudo cp /home/pi/rpi-check-in-printer/vncserver@.service /etc/systemd/system/vncserver@.service
+sudo systemctl daemon-reload
+sudo systemctl enable vncserver@1.service
+sudo systemctl start vncserver@1
+
 echo
 echo "Great! Everything is installed. Now let's set up your printer."
 echo "This script will attempt to add the printer automatically..."
