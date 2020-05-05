@@ -11,6 +11,19 @@ fi
 
 set -e
 
+echo "Welcome to the rpi-check-in-printer setup script."
+echo "This script will install some software on your Pi and help you set up your printer."
+echo
+echo "First, let's get this out of the way..."
+echo
+read -p "Did you change the password of the Pi user from the default 'raspberry'? [yN]" REPLY
+if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+  echo "Great, let's continue..."
+else
+  echo "Please follow the instructions here: https://github.com/seven1m/rpi-check-in-printer"
+  exit
+fi
+
 if [[ "$SKIP_ZIP_DOWNLOAD" == "" ]]; then
   rm -rf rpi-check-in-printer-latest.zip rpi-check-in-printer planning-center-check-ins.zip planning-center-check-ins
 
@@ -69,8 +82,7 @@ if [[ -z "$printer_name" ]]; then
   get_printer_device
 
   while [[ -z "$device" ]]; do
-    echo "We were not able to find any Dymo printers connected. Do you want to try again? [Yn]"
-    read -r
+    read -p "We were not able to find any Dymo printers connected. Do you want to try again? [Yn]" REPLY
     if [[ ! "$REPLY" =~ ^[Nn]$ ]]; then
       get_printer_device
     else
@@ -86,8 +98,7 @@ if [[ -z "$printer_name" ]]; then
     echo "Let's try it this way instead..."
     echo "In your web browser, visit https://$ip:631 and add your Dymo printer."
     echo
-    echo "Once you have added the printer manually, press enter to continue and test the printer..."
-    read -r
+    read -p "Once you have added the printer manually, press enter to continue and test the printer..."
   fi
 fi
 
