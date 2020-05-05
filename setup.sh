@@ -105,8 +105,8 @@ function setup_printer() {
     driver=$(/usr/sbin/lpinfo -m | grep -i dymo | ruby -n -e "(key, desc) = \$_.strip.split(' ', 2); print %(#{key} #{desc.inspect} )" | xargs dialog --stdout --menu "Select Print Driver" 40 80 55)
     clear
     echo "Adding printer..."
-    echo "/usr/sbin/lpadmin -p Dymo -v $device -m $driver -E"
-    /usr/sbin/lpadmin -p Dymo -v $device -m drv:///sample.drv/dymo.ppd -E
+    /usr/sbin/lpadmin -p Dymo -v $device -m $driver -E
+    /usr/sbin/lpadmin -d Dymo
   else
     echo "Let's try it this way instead..."
     echo "In your web browser, visit https://$ip:631 and add your Dymo printer."
