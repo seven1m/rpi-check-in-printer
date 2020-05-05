@@ -3,6 +3,7 @@
 check_ins_release_url="https://check-ins-printing.s3.amazonaws.com/planning-center-check-ins-1.8.3-armv7l.zip"
 qz_release_url="https://github.com/qzind/tray/releases/download/v2.1.0/qz-tray-2.1.0+1.run"
 autostart="/etc/xdg/lxsession/LXDE-pi/autostart"
+release_ref="latest"
 
 ip=$(/sbin/ifconfig | egrep -o "inet [^ ]+" | grep -v 127.0.0.1 | awk '{ print $2 }')
 if [[ "$ip" == "" ]]; then
@@ -25,11 +26,11 @@ else
 fi
 
 if [[ "$SKIP_ZIP_DOWNLOAD" == "" ]]; then
-  rm -rf rpi-check-in-printer-latest.zip rpi-check-in-printer planning-center-check-ins.zip planning-center-check-ins
+  rm -rf rpi-check-in-printer-$release_ref.zip rpi-check-in-printer-$release_ref rpi-check-in-printer planning-center-check-ins.zip planning-center-check-ins
 
-  wget -O rpi-check-in-printer-latest.zip https://github.com/seven1m/rpi-check-in-printer/archive/latest.zip
-  unzip rpi-check-in-printer-latest.zip
-  mv rpi-check-in-printer-latest rpi-check-in-printer
+  wget -O rpi-check-in-printer-$release_ref.zip https://github.com/seven1m/rpi-check-in-printer/archive/$release_ref.zip
+  unzip rpi-check-in-printer-$release_ref.zip
+  mv rpi-check-in-printer-$release_ref rpi-check-in-printer
 
   wget -O planning-center-check-ins.zip $check_ins_release_url
   unzip planning-center-check-ins.zip -d planning-center-check-ins
@@ -41,6 +42,8 @@ if [[ "$SKIP_APT_INSTALL" == "" ]]; then
 fi
 
 sudo gpasswd -a pi lpadmin
+
+echo "Configuring CUPS; this may take awhile..."
 sudo /usr/sbin/cupsctl --remote-admin --remote-any --share-printers
 sudo systemctl restart cups
 
