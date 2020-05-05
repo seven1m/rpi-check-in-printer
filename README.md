@@ -28,7 +28,11 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
 
    This *might* work on an older Raspberry Pi, but you're on your own.
 
-1. A Dymo printer. I have only tested with the Dymo LabelWriter 450 and 450 Turbo. Other printers *should* work, but I'm not sure.
+1. A Dymo printer. I have only tested with the Dymo LabelWriter 450 and 450 Turbo.
+
+   Other Dymo printers *should* work out of the box, but I haven't tested any others.
+
+   Further: A printer made by another brand (not Dymo) could probably be made to work with this setup, assuming there is a Linux print driver for it. There is not any Dymo-specific software used, but the setup script only knows how to install Dymo printers. You would need to set up the printer manually or tweak the script.
 
 ## The Steps
 
