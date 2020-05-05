@@ -12,17 +12,20 @@ fi
 
 set -e
 
-echo "Welcome to the rpi-check-in-printer setup script."
-echo "This script will install some software on your Pi and help you set up your printer."
-echo
-echo "First, let's get this out of the way..."
-echo
-read -p "Did you change the password of the Pi user from the default 'raspberry'? [yN]" REPLY
-if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-  echo "Great, let's continue..."
-else
-  echo "Please follow the instructions here: https://github.com/seven1m/rpi-check-in-printer"
-  exit
+if [[ ! -e $HOME/.password-changed ]]; then
+  echo "Welcome to the rpi-check-in-printer setup script."
+  echo "This script will install some software on your Pi and help you set up your printer."
+  echo
+  echo "First, let's get this out of the way..."
+  echo
+  read -p "Did you change the password of the Pi user from the default 'raspberry'? [yN]" REPLY
+  if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+    echo "Great, let's continue..."
+    touch $HOME/.password-changed
+  else
+    echo "Please follow the instructions here: https://github.com/seven1m/rpi-check-in-printer"
+    exit
+  fi
 fi
 
 if [[ "$SKIP_ZIP_DOWNLOAD" == "" ]]; then
@@ -38,14 +41,16 @@ fi
 
 if [[ "$SKIP_APT_INSTALL" == "" ]]; then
   sudo apt-get update
-  sudo apt-get install -y -q build-essential cups cups-bsd printer-driver-dymo vim ruby openjdk-8-jdk
+  sudo apt-get install -y -q build-essential cups cups-bsd printer-driver-dymo vim ruby openjdk-8-jdk dialog
 fi
 
-sudo gpasswd -a pi lpadmin
+if [[ "$SKIP_CUPS_SETUP" == "" ]]; then
+  sudo gpasswd -a pi lpadmin
 
-echo "Configuring CUPS; this may take awhile..."
-sudo /usr/sbin/cupsctl --remote-admin --remote-any --share-printers
-sudo systemctl restart cups
+  echo "Configuring CUPS; this may take awhile..."
+  sudo /usr/sbin/cupsctl --remote-admin --remote-any --share-printers
+  sudo systemctl restart cups
+fi
 
 if ! grep "start_station.sh" $autostart; then
   echo '@/home/pi/rpi-check-in-printer/start_station.sh' | sudo tee -a $autostart
@@ -84,9 +89,7 @@ function get_printer_name() {
   set -e
 }
 
-get_printer_name
-
-if [[ -z "$printer_name" ]]; then
+function setup_printer() {
   get_printer_device
 
   while [[ -z "$device" ]]; do
@@ -99,8 +102,10 @@ if [[ -z "$printer_name" ]]; then
   done
 
   if [[ -n "$device" ]]; then
+    driver=$(/usr/sbin/lpinfo -m | grep -i dymo | ruby -n -e "(key, desc) = \$_.strip.split(' ', 2); print %(#{key} #{desc.inspect} )" | xargs dialog --stdout --menu "Select Print Driver" 40 80 55)
+    clear
     echo "Adding printer..."
-    echo "/usr/sbin/lpadmin -p Dymo -v $device -m drv:///sample.drv/dymo.ppd -E" # FIXME: select driver appropriate for device. This fixes issues with print DPI/resolution.
+    echo "/usr/sbin/lpadmin -p Dymo -v $device -m $driver -E"
     /usr/sbin/lpadmin -p Dymo -v $device -m drv:///sample.drv/dymo.ppd -E
   else
     echo "Let's try it this way instead..."
@@ -108,6 +113,23 @@ if [[ -z "$printer_name" ]]; then
     echo
     read -p "Once you have added the printer manually, press enter to continue and test the printer..."
   fi
+}
+
+get_printer_name
+
+if [[ -n "$printer_name" ]]; then
+  echo "The following printer was found:"
+  echo
+  echo "    $printer_name"
+  echo
+  read -p "Do you want to remove this printer and add a new one? [yN]" REPLY
+  if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+    /usr/sbin/lpadmin -x "$printer_name"
+    echo "Printer removed."
+    setup_printer
+  fi
+else
+  setup_printer
 fi
 
 get_printer_name
