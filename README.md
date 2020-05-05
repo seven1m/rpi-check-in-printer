@@ -1,6 +1,6 @@
-# Raspberry Pi as a Check-ins Printer Station
+# Raspberry Pi as a Check-Ins Printer Station
 
-This document outlines the steps I use to set up a Raspberry Pi as a Check-in Printer Station. That is, a "computer" that connects to a Dymo printer and accepts print jobs from [Planning Center Check-ins](https://planning.center/check-ins/download) running on a tablet, phone, or another computer.
+This document outlines the steps I use to set up a Raspberry Pi as a Check-in Printer Station. That is, a "computer" that connects to a Dymo printer and accepts print jobs from [Planning Center Check-Ins](https://planning.center/check-ins/download) running on a tablet, phone, or another computer.
 
 This repo also includes a script that modifies the Pi and installs software.
 
@@ -14,9 +14,9 @@ The Raspberry Pi is an inexpensive alternative to a full computer, but it does t
 
 ## How it Works
 
-We install the Planning Center Check-ins app on the Raspberry Pi and set it to start automatically when the Pi boots up. We also install other necessary software and connect the printer with [Cups](https://www.cups.org/).
+We install the Planning Center Check-Ins app on the Raspberry Pi and set it to start automatically when the Pi boots up. We also install other necessary software and connect the printer with [Cups](https://www.cups.org/).
 
-Once everything is set up, all your Check-ins stations can see the Pi as another station and print to it, even though it has no display or keyboard.
+Once everything is set up, all your Check-Ins stations can see the Pi as another station and print to it, even though it has no display or keyboard.
 
 <img src="images/ipad_and_pi_and_printer.jpg" alt="iPad and Raspberry Pi and Dymo Printer" height="300">
 
@@ -24,11 +24,17 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
 
 ## What You'll Need
 
+1. A [Planning Center Check-Ins](https://www.planningcenter.com/check-ins) subscription
+
+1. An iPad or other tablet to run Check-Ins app
+
 1. A Raspberry Pi 4
 
    This *might* work on an older Raspberry Pi, but you're on your own.
 
-1. A Dymo printer. I have only tested with the Dymo LabelWriter 450 and 450 Turbo.
+1. A Dymo printer
+
+   I have only tested with the Dymo LabelWriter 450 and 450 Turbo.
 
    Other Dymo printers *should* work out of the box, but I haven't tested any others.
 
@@ -36,7 +42,7 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
 
 ## The Steps
 
-1.  Enable Check-ins "Universal Printing" [here](https://check-ins.planningcenteronline.com/universal_printing_beta).
+1.  Enable Check-Ins "Universal Printing" [here](https://check-ins.planningcenteronline.com/universal_printing_beta).
 
 1.  On a desktop computer, download Raspbian Buster from [here](http://downloads.raspberrypi.org/raspbian/images/raspbian-2020-02-14/). Note: this is the only version of Raspbian I have tested this with. If you choose a newer version, you're on your own!
 
@@ -130,9 +136,9 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
 
     The VNC password is the one you set earlier.
 
-1.  Set up the Planning Center Check-ins Software.
+1.  Set up the Planning Center Check-Ins Software.
 
-    You should see Planning Center Check-ins asking you to set up a new station.
+    You should see Planning Center Check-Ins asking you to set up a new station.
 
     Go through the process to create a new station. Give it a name, and accept the defaults for everything else.
 
@@ -146,7 +152,7 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
 
 1.  Point your iPad or other station to the Raspberry Pi:
 
-    Visit the [stations page](https://check-ins.planningcenteronline.com/stations) in Check-ins and click to open the settings for your iPad station.
+    Visit the [stations page](https://check-ins.planningcenteronline.com/stations) in Check-Ins and click to open the settings for your iPad station.
 
     In the "Print Station" drop-down, choose your Raspberry Pi station you just created.
 
@@ -162,7 +168,7 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
 
 1.  Check that the Dymo printer is setup via Cups at [https://IPADDRESS:631](https://IPADDRESS:631).
 
-1.  Use VNC to connect to the Pi and visit the Print Setup page in the Check-ins app. You can get there by pressing Ctrl-2.
+1.  Use VNC to connect to the Pi and visit the Print Setup page in the Check-Ins app. You can get there by pressing Ctrl-2.
 
 **Printing is slow!**
 
