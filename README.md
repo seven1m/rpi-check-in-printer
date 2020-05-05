@@ -22,6 +22,14 @@ Once everything is set up, all your Check-ins stations can see the Pi as another
 
 Of course, you can hide the Raspberry Pi away under a table or whatever.
 
+## What You'll Need
+
+1. A Raspberry Pi 4
+
+   This *might* work on an older Raspberry Pi, but you're on your own.
+
+1. A Dymo printer. I have only tested with the Dymo LabelWriter 450 and 450 Turbo. Other printers *should* work, but I'm not sure.
+
 ## The Steps
 
 1.  Enable Check-ins "Universal Printing" [here](https://check-ins.planningcenteronline.com/universal_printing_beta).
@@ -34,7 +42,7 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
 
     Create a new file there called "ssh" or "ssh.txt". You can use a program like TextEdit or Notepad. The file does not need to have anything inside it. Just an empty file with the name "ssh.txt" or "ssh" is fine.
 
-1.  Put the SD card in your Raspberry Pi, connect it to your physical network with an ethernet cable, then power it on.
+1.  Put the SD card in your Raspberry Pi 4, connect it to your physical network with an ethernet cable, then power it on.
 
 1.  Determine the IP address of your Raspberry Pi. You can either do this from your router, if you can list DHCP leases there, or by using a tool like [nmap](https://nmap.org/).
 
