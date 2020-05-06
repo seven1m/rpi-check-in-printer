@@ -40,6 +40,12 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
 
    Further: A printer made by another brand (not Dymo) could probably be made to work with this setup, assuming there is a Linux print driver for it. There is not any Dymo-specific software used, but the setup script only knows how to install Dymo printers. You would need to set up the printer manually or tweak the script.
 
+## The General Process
+
+I put together a video showing generally how everything is installed. Be sure to follow the detailed instructions below when doing these steps yourself.
+
+<a href="https://youtu.be/sH3Qwt0vvbc"><img src="images/video_tn.jpg" alt="Video demonstrating setup of the Raspberry Pi software" height="300"></a>
+
 ## The Steps
 
 1.  Enable Check-Ins "Universal Printing" [here](https://check-ins.planningcenteronline.com/universal_printing_beta).
