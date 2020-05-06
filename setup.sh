@@ -68,9 +68,12 @@ if [[ ! -e $qz_filename ]]; then
 fi
 
 sudo cp /home/pi/rpi-check-in-printer/vncserver@.service /etc/systemd/system/vncserver@.service
+sudo cp /home/pi/rpi-check-in-printer/dymo_lag_fix.service /etc/systemd/system/dymo_lag_fix.service
 sudo systemctl daemon-reload
 sudo systemctl enable vncserver@1.service
 sudo systemctl start vncserver@1
+sudo systemctl enable dymo_lag_fix.service
+sudo systemctl start dymo_lag_fix
 
 echo
 echo "Great! Everything is installed. Now let's set up your printer."

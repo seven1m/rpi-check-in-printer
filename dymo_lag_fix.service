@@ -1,0 +1,12 @@
+[Unit]
+Description=Fix laggy Dymo print jobs
+
+[Service]
+User=root
+Group=root
+Restart=always
+RestartSec=5
+ExecStart=/home/pi/rpi-check-in-printer/dymo_lag_fix.rb
+
+[Install]
+WantedBy=multi-user.target

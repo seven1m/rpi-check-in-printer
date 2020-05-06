@@ -171,9 +171,3 @@ Here are some troubleshooting steps, starting closest to the hardware:
 1.  Check that the Dymo printer is setup via Cups at [https://IPADDRESS:631](https://IPADDRESS:631). Print a test page from this UI.
 
 1.  Use VNC to connect to the Pi and visit the Print Setup page in the Check-Ins app. You can get there by pressing Ctrl-2.
-
-**Problem: Printing is too slow**
-
-Beginning printing a label can sometimes take up to 5 seconds from the time a check-in happens. This is too slow.
-
-I'm working on it! I don't have a proper solution at the moment.
