@@ -56,10 +56,6 @@ if ! grep "start_station.sh" $autostart; then
   echo '@/home/pi/rpi-check-in-printer/start_station.sh' | sudo tee -a $autostart
 fi
 
-if ! grep "start_qz_tray.sh" $autostart; then
-  echo '@/home/pi/rpi-check-in-printer/start_qz_tray.sh' | sudo tee -a $autostart
-fi
-
 qz_filename=$(basename $qz_release_url)
 if [[ ! -e $qz_filename ]]; then
   wget $qz_release_url
