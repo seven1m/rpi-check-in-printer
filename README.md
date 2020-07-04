@@ -28,9 +28,9 @@ Of course, you can hide the Raspberry Pi away under a table or whatever.
 
 1. An iPad or other tablet to run Check-Ins app
 
-1. A Raspberry Pi 4
+1. A Raspberry Pi 4 with at least 2 GB of RAM.
 
-   This *might* work on an older Raspberry Pi, but you're on your own.
+   This will *not* work on an older Raspberry Pi.
 
 1. A Dymo printer
 
