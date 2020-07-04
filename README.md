@@ -177,3 +177,9 @@ Here are some troubleshooting steps, starting closest to the hardware:
 1.  Check that the Dymo printer is setup via Cups at [https://IPADDRESS:631](https://IPADDRESS:631). Print a test page from this UI.
 
 1.  Use VNC to connect to the Pi and visit the Print Setup page in the Check-Ins app. You can get there by pressing Ctrl-2.
+
+**Problem: Labels print slow and/or cut-off**
+
+Sometimes, labels will print **extremely** slow and pause mid-way through printing a label.
+
+I have found that _some_ Dymo printers do not work well with my `dymo_lag_fix.rb` script. It's not an issue with a particular model, but rather seems to be a random problem. My solution is to swap printers around (often times even the same exact model number) and everything starts working as expected!
