@@ -7,5 +7,5 @@ while ! ping -c 1 -W 1 1.1.1.1; do
   sleep 1
 done
 
-cd /home/pi/planning-center-check-ins
+cd $HOME/planning-center-check-ins
 ./planning-center-check-ins

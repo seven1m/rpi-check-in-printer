@@ -1,8 +1,11 @@
 #!/bin/bash
 
-check_ins_release_url="https://check-ins-printing.s3.amazonaws.com/planning-center-check-ins-1.8.3-armv7l.zip"
+if arch | grep x86_64 2>&1 >/dev/null; then
+  check_ins_release_url="https://check-ins-printing.s3.amazonaws.com/planning-center-check-ins-1.8.3.zip"
+else
+  check_ins_release_url="https://check-ins-printing.s3.amazonaws.com/planning-center-check-ins-1.8.3-armv7l.zip"
+fi
 qz_release_url="https://github.com/qzind/tray/releases/download/v2.1.0/qz-tray-2.1.0+1.run"
-autostart="/etc/xdg/lxsession/LXDE-pi/autostart"
 release_ref="latest"
 
 ip=$(/sbin/ifconfig | egrep -o "inet [^ ]+" | grep -v 127.0.0.1 | awk '{ print $2 }')
@@ -45,15 +48,24 @@ if [[ "$SKIP_APT_INSTALL" == "" ]]; then
 fi
 
 if [[ "$SKIP_CUPS_SETUP" == "" ]]; then
-  sudo gpasswd -a pi lpadmin
+  sudo gpasswd -a $USER lpadmin
 
   echo "Configuring CUPS; this may take awhile..."
   sudo /usr/sbin/cupsctl --remote-admin --remote-any --share-printers
   sudo systemctl restart cups
 fi
 
-if ! grep "start_station.sh" $autostart; then
-  echo '@/home/pi/rpi-check-in-printer/start_station.sh' | sudo tee -a $autostart
+lxde_autostart="/etc/xdg/lxsession/LXDE-pi/autostart"
+ubuntu_autostart="$HOME/.config/autostart"
+if [[ -e $lxde_autostart ]]; then
+  if ! grep "start_station.sh" $lxde_autostart; then
+    echo "@/$HOME/rpi-check-in-printer/start_station.sh" | sudo tee -a $autostart
+  fi
+elif lsb_release -a | grep Ubuntu 2>&1 >/dev/null; then
+  mkdir -p $HOME/.config/autostart
+  echo -e "[Desktop Entry]\nname=check-ins\nExec=$HOME/rpi-check-in-printer/start_station.sh\nType=Application" > .config/autostart/check-ins.desktop
+else
+  echo "Unknown autostart mechanism. You'll have to run start_station.sh manually or set up autostart yourself."
 fi
 
 qz_filename=$(basename $qz_release_url)
@@ -63,8 +75,8 @@ if [[ ! -e $qz_filename ]]; then
   sudo ./$qz_filename
 fi
 
-sudo cp /home/pi/rpi-check-in-printer/vncserver@.service /etc/systemd/system/vncserver@.service
-sudo cp /home/pi/rpi-check-in-printer/dymo_lag_fix.service /etc/systemd/system/dymo_lag_fix.service
+sudo cp $HOME/rpi-check-in-printer/vncserver@.service /etc/systemd/system/vncserver@.service
+sudo cp $HOME/rpi-check-in-printer/dymo_lag_fix.service /etc/systemd/system/dymo_lag_fix.service
 sudo systemctl daemon-reload
 sudo systemctl enable vncserver@1.service
 sudo systemctl start vncserver@1
