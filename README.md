@@ -48,77 +48,36 @@ I put together a video showing generally how everything is installed. Be sure to
 
 ## The Steps
 
-1.  Enable Check-Ins "Universal Printing" [here](https://check-ins.planningcenteronline.com/universal_printing_beta).
+1.  On a desktop computer, download the Raspberry Pi Imager tool [here](https://www.raspberrypi.com/software/). 
 
-1.  On a desktop computer, download Raspbian Buster from [here](http://downloads.raspberrypi.org/raspbian/images/raspbian-2020-02-14/). Note: this is the only version of Raspbian I have tested this with. If you choose a newer version, you're on your own!
+1.  Run the imager. Click "Choose OS" and select "Raspberry Pi OS 32 Bit". 
 
-1.  Use a tool like [Etcher](https://www.balena.io/etcher/) to write the downloaded image to your SD card.
+1.  Click "Choose Storage" and select your SD card (insert it now if you haven't already). 
 
-1.  After the image is written to the SD card, open the "boot" partition. On Mac and Windows, the boot partition should appear as a drive in Finder/Explorer. You'll see files already there. If you don't see the boot partition, you may need to remove the SD card and re-insert it for the operating system to see the drive.
+1.  Click the gear icon for Advanced Options. Click the checkbox for "Enable SSH". Leave the option for "Use Password Authentication" selected. Scroll to the next section and enter a new password for the default user pi. Don't change the name of the user or parts of the setup script will fail. 
 
-    Create a new file there called "ssh" or "ssh.txt". You can use a program like TextEdit or Notepad. The file does not need to have anything inside it. Just an empty file with the name "ssh.txt" or "ssh" is fine.
+1.  Check the option for "Configure Wireless LAN" assuming you're not plugging into a wired ethernet.  If you'd like, you can also change other advanced options such as the default host name from raspberrypi to something more specific (like "checkinprinter"). You'll use this name to access the Raspberry Pi in later steps, but also in the future if you need to update or fix anything on the pi. 
 
-1.  Put the SD card in your Raspberry Pi 4, connect it to your physical network with an ethernet cable, then power it on.
+1. Now click "Write" - writing the image may take a few minutes. When done, move the SD card to the Raspberry Pi and power it on.
 
-1.  Determine the IP address of your Raspberry Pi. You can either do this from your router, if you can list DHCP leases there, or by using a tool like [nmap](https://nmap.org/).
-
-    Here is how to search for your Raspberry Pi with nmap:
+1.  SSH to the Pi using the new password you set above. Be sure to substitute the hostname if you changed from the default.
 
     ```sh
-    sudo nmap -p 22 -open 192.168.1.0/24
+    ssh pi@raspberrypi.local
+    ```
+    Enter the new password you picked in Advanced Options
+
+1.  Enable VNC using raspi-confi
+
+    ```sh 
+    sudo raspi-config
     ```
 
-    The last argument tells nmap about your local network. The most typical is `192.168.1.0/24`, but if you have another network IP address and range, adjust appropriately. For instance, if your network IP addresses are 10.0.x.y, then you might need to use `10.0.0.0/16`. You can use a tool like the [Subnet Calculator](http://www.subnet-calculator.com/) to help.
+    Use the arrow keys to select Interfacing Options and press Enter. 
 
-    The resulting output will look something like this:
+    Use the arrow keys to select VNC and press Enter. 
 
-    ```
-    Nmap scan report for 192.168.11.9
-    Host is up (0.89s latency).
-
-    PORT   STATE SERVICE
-    22/tcp open  ssh
-    MAC Address: 80:2A:A8:68:24:53 (Ubiquiti Networks)
-
-    Nmap scan report for 192.168.11.10
-    Host is up (1.0s latency).
-
-    PORT   STATE SERVICE
-    22/tcp open  ssh
-    MAC Address: 80:2A:A8:7C:05:4D (Ubiquiti Networks)
-
-    Nmap scan report for 192.168.11.179
-    Host is up (0.065s latency).
-
-    PORT   STATE SERVICE
-    22/tcp open  ssh
-    MAC Address: 00:11:24:21:19:FA (Apple)
-
-    Nmap scan report for 192.168.11.207
-    Host is up (0.0090s latency).
-
-    PORT   STATE SERVICE
-    22/tcp open  ssh
-    MAC Address: B8:27:EB:EE:C9:A3 (Raspberry Pi Foundation)
-
-    Nmap done: 256 IP addresses (30 hosts up) scanned in 15.45 seconds
-    ```
-
-    You can see from the output, that only one device on my network responds to the SSH port 22 **and** has a Mac Address assigned to Raspberry Pi Foundation. This is the Pi I'm looking for!
-
-1.  SSH to the Pi and change the default password. Be sure to substitute the IP address with the one you found in the step above.
-
-    ```sh
-    ssh pi@192.168.X.Y
-    ```
-
-    Enter the default password: `raspberry`
-
-    ```sh
-    passwd
-    ```
-
-    Enter `rapsberry` one last time, then enter your new desired password.
+    You will be prompted to enable VNC Server.
 
 1.  Download and run the setup script.
 
@@ -134,11 +93,11 @@ I put together a video showing generally how everything is installed. Be sure to
 
     **DO NOT CONTINUE until you can get a test label to print using the setup script above.**
 
-1.  Use VNC to connect to the Pi.
+1.  Use VNC from your desktop to connect to the Pi.
 
     Download and run [RealVNC](https://www.realvnc.com).
 
-    Use the IP address you discovered earlier plus `:1` to connect to the Pi with RealVNC Viewer. The full address will look like something this: `192.168.X.Y:1`
+    Connect to "raspberrypi.local" (substitute the host name if you changed that)
 
     The VNC password is the one you set earlier.
 
