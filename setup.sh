@@ -1,6 +1,6 @@
 #!/bin/bash
 
-check_ins_release_url="https://check-ins-printing.s3.amazonaws.com/planning-center-check-ins-1.8.3-armv7l.zip"
+check_ins_release_url="https://check-ins-printing.s3.amazonaws.com/planning-center-check-ins-1.11.0-armv7l.zip"
 qz_release_url="https://github.com/qzind/tray/releases/download/v2.1.0/qz-tray-2.1.0+1.run"
 autostart="/etc/xdg/lxsession/LXDE-pi/autostart"
 release_ref="latest"
